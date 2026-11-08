@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">PostsApplication</string>
+    <string name="app_name">Posts</string>
+
+    <!-- List -->
+    <string name="title_posts">Posts</string>
+    <string name="placeholder_search_posts">Search posts…</string>
+    <string name="cd_search">Search</string>
+    <string name="cd_clear_search">Clear search</string>
+    <string name="cd_delete_post">Delete post</string>
+    <string name="cd_post_image">Image for post %1$s</string>
+    <string name="loading_posts">Loading posts…</string>
+    <string name="loading_searching">Searching…</string>
+    <string name="message_post_deleted">Post deleted</string>
+    <string name="action_undo">Undo</string>
+
+    <!-- Detail -->
+    <string name="title_edit_post">Edit post</string>
+    <string name="label_title">Title</string>
+    <string name="label_description">Description</string>
+    <string name="action_save">Save</string>
+    <string name="cd_back">Back</string>
+    <string name="message_post_saved">Post saved</string>
+    <string name="error_title_blank">Title can\'t be empty</string>
+    <string name="dialog_discard_title">Discard changes?</string>
+    <string name="dialog_discard_message">Your unsaved changes will be lost.</string>
+    <string name="action_discard">Discard</string>
+    <string name="action_keep_editing">Keep editing</string>
+
+    <!-- Empty states -->
+    <string name="empty_no_posts_title">No posts yet</string>
+    <string name="empty_no_posts_description">There are no posts to show.\nPull down to refresh.</string>
+    <string name="empty_no_results_title">No results found</string>
+    <string name="empty_no_results_description">We couldn\'t find any posts matching \"%1$s\".\nTry a different keyword.</string>
+
+    <!-- Errors -->
+    <string name="error_no_internet_title">No internet connection</string>
+    <string name="error_no_internet_description">We couldn\'t reach the network. Check your connection and try again.</string>
+    <string name="error_generic_title">Something went wrong</string>
+    <string name="error_generic_description">An unexpected error occurred. Please try again.</string>
+    <string name="error_post_not_found">This post no longer exists.</string>
+    <string name="error_delete_failed">Couldn\'t delete the post. It has been restored.</string>
+    <string name="error_save_failed">Couldn\'t save the post. Please try again.</string>
+    <string name="error_refresh_failed">Couldn\'t refresh. Showing saved posts.</string>
+    <string name="action_retry">Retry</string>
 </resources>

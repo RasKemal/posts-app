@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Gönderiler</string>
+
+    <!-- List -->
+    <string name="title_posts">Gönderiler</string>
+    <string name="placeholder_search_posts">Gönderilerde ara…</string>
+    <string name="cd_search">Ara</string>
+    <string name="cd_clear_search">Aramayı temizle</string>
+    <string name="cd_delete_post">Gönderiyi sil</string>
+    <string name="cd_post_image">%1$s gönderisinin görseli</string>
+    <string name="loading_posts">Gönderiler yükleniyor…</string>
+    <string name="loading_searching">Aranıyor…</string>
+    <string name="message_post_deleted">Gönderi silindi</string>
+    <string name="action_undo">Geri al</string>
+
+    <!-- Detail -->
+    <string name="title_edit_post">Gönderiyi düzenle</string>
+    <string name="label_title">Başlık</string>
+    <string name="label_description">Açıklama</string>
+    <string name="action_save">Kaydet</string>
+    <string name="cd_back">Geri</string>
+    <string name="message_post_saved">Gönderi kaydedildi</string>
+    <string name="error_title_blank">Başlık boş olamaz</string>
+    <string name="dialog_discard_title">Değişiklikler silinsin mi?</string>
+    <string name="dialog_discard_message">Kaydedilmemiş değişiklikleriniz kaybolacak.</string>
+    <string name="action_discard">Sil</string>
+    <string name="action_keep_editing">Düzenlemeye devam et</string>
+
+    <!-- Empty states -->
+    <string name="empty_no_posts_title">Henüz gönderi yok</string>
+    <string name="empty_no_posts_description">Gösterilecek gönderi yok.\nYenilemek için aşağı çekin.</string>
+    <string name="empty_no_results_title">Sonuç bulunamadı</string>
+    <string name="empty_no_results_description">\"%1$s\" ile eşleşen gönderi bulunamadı.\nFarklı bir kelime deneyin.</string>
+
+    <!-- Errors -->
+    <string name="error_no_internet_title">İnternet bağlantısı yok</string>
+    <string name="error_no_internet_description">Ağa ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="error_generic_title">Bir şeyler ters gitti</string>
+    <string name="error_generic_description">Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.</string>
+    <string name="error_post_not_found">Bu gönderi artık mevcut değil.</string>
+    <string name="error_delete_failed">Gönderi silinemedi. Geri yüklendi.</string>
+    <string name="error_save_failed">Gönderi kaydedilemedi. Lütfen tekrar deneyin.</string>
+    <string name="error_refresh_failed">Yenilenemedi. Kayıtlı gönderiler gösteriliyor.</string>
+    <string name="action_retry">Tekrar dene</string>
+</resources>
