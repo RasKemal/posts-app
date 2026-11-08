@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.postsapplication.R
-import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.ui.components.PostImage
+import com.example.postsapplication.ui.list.PostListItem
 import com.example.postsapplication.ui.theme.PostsTheme
 
 val PostImageSize = 56.dp
@@ -31,7 +31,7 @@ val PostRowHorizontalPadding = 16.dp
 
 @Composable
 fun PostRow(
-    post: Post,
+    post: PostListItem,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -60,7 +60,7 @@ fun PostRow(
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                text = post.body,
+                text = post.bodyPreview,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
@@ -83,10 +83,10 @@ fun PostRow(
 private fun PostRowPreview() {
     PostsTheme {
         PostRow(
-            post = Post(
+            post = PostListItem(
                 id = 1,
                 title = "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-                body = "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit",
+                bodyPreview = "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit",
                 imageUrl = "",
                 isEdited = true,
             ),

@@ -38,7 +38,6 @@ import androidx.paging.compose.itemKey
 import com.example.postsapplication.R
 import com.example.postsapplication.core.ui.ObserveAsEvents
 import com.example.postsapplication.domain.error.DataError
-import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.ui.common.toErrorMessage
 import com.example.postsapplication.ui.components.DelayedLoadingIndicator
 import com.example.postsapplication.ui.components.EmptyState
@@ -85,7 +84,7 @@ fun PostListRoute(
 @Composable
 fun PostListScreen(
     uiState: PostListUiState,
-    posts: LazyPagingItems<Post>,
+    posts: LazyPagingItems<PostListItem>,
     snackbarHostState: SnackbarHostState,
     onAction: (PostListAction) -> Unit,
     onPostClick: (Int) -> Unit,
@@ -147,7 +146,7 @@ fun PostListScreen(
 
 @Composable
 private fun PostList(
-    posts: LazyPagingItems<Post>,
+    posts: LazyPagingItems<PostListItem>,
     deletingIds: Set<Int>,
     contentPadding: PaddingValues,
     onPostClick: (Int) -> Unit,
@@ -225,10 +224,10 @@ private fun PostListMessage(
 }
 
 private val previewPosts = (1..6).map { id ->
-    Post(
+    PostListItem(
         id = id,
         title = "sunt aut facere repellat provident occaecati excepturi optio $id",
-        body = "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae",
+        bodyPreview = "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae",
         imageUrl = "",
         isEdited = id == 2,
     )
@@ -241,7 +240,7 @@ private val notLoading = LoadStates(
 )
 
 @Composable
-private fun PostListPreview(posts: List<Post>, uiState: PostListUiState) {
+private fun PostListPreview(posts: List<PostListItem>, uiState: PostListUiState) {
     PostsTheme {
         PostListScreen(
             uiState = uiState,

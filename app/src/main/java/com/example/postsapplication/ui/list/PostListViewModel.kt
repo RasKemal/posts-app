@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.example.postsapplication.R
 import com.example.postsapplication.core.common.Result
 import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.core.util.prepareForSearch
-import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,11 +39,12 @@ class PostListViewModel @Inject constructor(
     val events: Flow<PostListEvent> = _events.receiveAsFlow()
 
     // Kept apart from uiState: PagingData must not be combined into other state.
-    val posts: Flow<PagingData<Post>> = _uiState
+    val posts: Flow<PagingData<PostListItem>> = _uiState
         .map { it.query }
         .distinctUntilChanged()
         .prepareForSearch()
         .flatMapLatest { query -> repository.pagedPosts(query) }
+        .map { pagingData -> pagingData.map { it.toListItem() } }
         .cachedIn(viewModelScope)
 
     private var syncJob: Job? = null

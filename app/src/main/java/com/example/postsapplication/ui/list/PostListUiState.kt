@@ -1,8 +1,10 @@
 package com.example.postsapplication.ui.list
 
+import androidx.compose.runtime.Immutable
 import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.domain.error.DataError
 
+@Immutable
 data class PostListUiState(
     val query: String = "",
     /** Pull-to-refresh indicator; only for refreshes the user started. */
