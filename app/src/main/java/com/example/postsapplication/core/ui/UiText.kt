@@ -1,6 +1,6 @@
 package com.example.postsapplication.core.ui
 
-import android.content.Context
+import android.content.res.Resources
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -24,8 +24,8 @@ sealed interface UiText {
         is StringResource -> stringResource(resId, *args)
     }
 
-    fun asString(context: Context): String = when (this) {
+    fun asString(resources: Resources): String = when (this) {
         is DynamicString -> value
-        is StringResource -> context.getString(resId, *args)
+        is StringResource -> resources.getString(resId, *args)
     }
 }

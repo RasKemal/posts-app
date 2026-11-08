@@ -7,11 +7,9 @@
     <string name="cd_search">Ara</string>
     <string name="cd_clear_search">Aramayı temizle</string>
     <string name="cd_delete_post">Gönderiyi sil</string>
-    <string name="cd_post_image">%1$s gönderisinin görseli</string>
     <string name="loading_posts">Gönderiler yükleniyor…</string>
     <string name="loading_searching">Aranıyor…</string>
-    <string name="message_post_deleted">Gönderi silindi</string>
-    <string name="action_undo">Geri al</string>
+    <string name="label_edited">Düzenlendi</string>
 
     <!-- Detail -->
     <string name="title_edit_post">Gönderiyi düzenle</string>
@@ -38,7 +36,7 @@
     <string name="error_generic_title">Bir şeyler ters gitti</string>
     <string name="error_generic_description">Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.</string>
     <string name="error_post_not_found">Bu gönderi artık mevcut değil.</string>
-    <string name="error_delete_failed">Gönderi silinemedi. Geri yüklendi.</string>
+    <string name="error_delete_failed">Gönderi silinemedi. Lütfen tekrar deneyin.</string>
     <string name="error_save_failed">Gönderi kaydedilemedi. Lütfen tekrar deneyin.</string>
     <string name="error_refresh_failed">Yenilenemedi. Kayıtlı gönderiler gösteriliyor.</string>
     <string name="action_retry">Tekrar dene</string>
