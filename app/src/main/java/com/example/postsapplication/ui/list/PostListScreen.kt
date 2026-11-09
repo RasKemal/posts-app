@@ -263,4 +263,4 @@ private fun PostListNoResultsPreview() = PostListPreview(emptyList(), PostListUi
 @Preview(showSystemUi = true)
 @Composable
 private fun PostListErrorPreview() =
-    PostListPreview(emptyList(), PostListUiState(syncError = DataError.Network.NO_INTERNET))
+    PostListPreview(emptyList(), PostListUiState(syncError = DataError.NO_INTERNET))

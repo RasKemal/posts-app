@@ -1,9 +1,7 @@
 package com.example.postsapplication.testing
 
 import androidx.paging.PagingData
-import com.example.postsapplication.core.common.EmptyResult
-import com.example.postsapplication.core.common.Result
-import com.example.postsapplication.domain.error.DataError
+import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.domain.repository.PostRepository
 import kotlinx.coroutines.CompletableDeferred
@@ -12,9 +10,9 @@ import kotlinx.coroutines.flow.flowOf
 
 class FakePostRepository : PostRepository {
 
-    var refreshResult: EmptyResult<DataError> = Result.Success(Unit)
-    var updateResult: EmptyResult<DataError> = Result.Success(Unit)
-    var deleteResult: EmptyResult<DataError> = Result.Success(Unit)
+    var refreshResult: DataResult<Unit> = DataResult.Success(Unit)
+    var updateResult: DataResult<Unit> = DataResult.Success(Unit)
+    var deleteResult: DataResult<Unit> = DataResult.Success(Unit)
 
     /** When set, refresh suspends until it is completed, to observe in-progress state. */
     var refreshGate: CompletableDeferred<Unit>? = null
@@ -30,20 +28,22 @@ class FakePostRepository : PostRepository {
         return flowOf(PagingData.empty())
     }
 
-    override fun observePost(id: Int): Flow<Post?> = flowOf(null)
+    val posts = mutableMapOf<Int, Post>()
 
-    override suspend fun refresh(): EmptyResult<DataError> {
+    override fun observePost(id: Int): Flow<Post?> = flowOf(posts[id])
+
+    override suspend fun refresh(): DataResult<Unit> {
         refreshCalls++
         refreshGate?.await()
         return refreshResult
     }
 
-    override suspend fun updatePost(id: Int, title: String, body: String): EmptyResult<DataError> {
+    override suspend fun updatePost(id: Int, title: String, body: String): DataResult<Unit> {
         updateCalls += Triple(id, title, body)
         return updateResult
     }
 
-    override suspend fun deletePost(id: Int): EmptyResult<DataError> {
+    override suspend fun deletePost(id: Int): DataResult<Unit> {
         deleteCalls += id
         return deleteResult
     }

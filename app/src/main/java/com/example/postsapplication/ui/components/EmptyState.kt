@@ -25,8 +25,8 @@ import com.example.postsapplication.ui.theme.PostsTheme
 fun EmptyState(
     @DrawableRes iconRes: Int,
     title: String,
-    description: String,
     modifier: Modifier = Modifier,
+    description: String? = null,
     iconTint: Color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
     action: EmptyStateAction? = null,
 ) {
@@ -47,13 +47,15 @@ fun EmptyState(
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
         )
-        Spacer(Modifier.height(8.dp))
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
+        if (description != null) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
         if (action != null) {
             Spacer(Modifier.height(24.dp))
             Button(onClick = action.onClick) {

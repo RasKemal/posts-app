@@ -6,10 +6,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.postsapplication.R
-import com.example.postsapplication.core.common.Result
 import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.core.util.prepareForSearch
 import com.example.postsapplication.domain.repository.PostRepository
+import com.example.postsapplication.domain.result.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -70,7 +70,7 @@ class PostListViewModel @Inject constructor(
         _uiState.update { it.copy(isSyncing = true, isRefreshing = userInitiated, syncError = null) }
         syncJob = viewModelScope.launch {
             val result = repository.refresh()
-            val error = (result as? Result.Error)?.error
+            val error = (result as? DataResult.Failure)?.error
             _uiState.update { it.copy(isSyncing = false, isRefreshing = false, syncError = error) }
             if (error != null) _events.send(PostListEvent.SyncFailed)
         }
@@ -80,7 +80,7 @@ class PostListViewModel @Inject constructor(
         if (id in _uiState.value.deletingIds) return
         _uiState.update { it.copy(deletingIds = it.deletingIds + id) }
         viewModelScope.launch {
-            if (repository.deletePost(id) is Result.Error) {
+            if (repository.deletePost(id) is DataResult.Failure) {
                 _uiState.update { it.copy(deletingIds = it.deletingIds - id) }
                 _events.send(PostListEvent.ShowMessage(UiText.StringResource(R.string.error_delete_failed)))
             }

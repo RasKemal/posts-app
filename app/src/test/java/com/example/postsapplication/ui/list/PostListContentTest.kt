@@ -21,7 +21,7 @@ class PostListContentTest {
     fun `posts win over any sync state`() {
         assertEquals(
             PostListContent.Posts,
-            content(itemCount = 3, isSyncing = true, syncError = DataError.Network.NO_INTERNET),
+            content(itemCount = 3, isSyncing = true, syncError = DataError.NO_INTERNET),
         )
     }
 
@@ -47,8 +47,8 @@ class PostListContentTest {
     @Test
     fun `error when the sync failed and nothing is cached`() {
         assertEquals(
-            PostListContent.Error(DataError.Network.NO_INTERNET),
-            content(syncError = DataError.Network.NO_INTERNET),
+            PostListContent.Error(DataError.NO_INTERNET),
+            content(syncError = DataError.NO_INTERNET),
         )
     }
 

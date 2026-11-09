@@ -17,7 +17,7 @@
     <string name="label_description">Açıklama</string>
     <string name="action_save">Kaydet</string>
     <string name="cd_back">Geri</string>
-    <string name="message_post_saved">Gönderi kaydedildi</string>
+    <string name="loading_post">Gönderi yükleniyor…</string>
     <string name="error_title_blank">Başlık boş olamaz</string>
     <string name="dialog_discard_title">Değişiklikler silinsin mi?</string>
     <string name="dialog_discard_message">Kaydedilmemiş değişiklikleriniz kaybolacak.</string>

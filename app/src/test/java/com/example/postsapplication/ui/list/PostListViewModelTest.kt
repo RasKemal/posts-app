@@ -2,7 +2,7 @@ package com.example.postsapplication.ui.list
 
 import app.cash.turbine.test
 import com.example.postsapplication.R
-import com.example.postsapplication.core.common.Result
+import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.testing.FakePostRepository
@@ -49,13 +49,13 @@ class PostListViewModelTest {
 
     @Test
     fun `failed sync stores the error and emits SyncFailed`() = runTest {
-        repository.refreshResult = Result.Error(DataError.Network.NO_INTERNET)
+        repository.refreshResult = DataResult.Failure(DataError.NO_INTERNET)
         val viewModel = PostListViewModel(repository)
 
         viewModel.events.test {
             assertEquals(PostListEvent.SyncFailed, awaitItem())
         }
-        assertEquals(DataError.Network.NO_INTERNET, viewModel.uiState.value.syncError)
+        assertEquals(DataError.NO_INTERNET, viewModel.uiState.value.syncError)
     }
 
     @Test
@@ -73,10 +73,10 @@ class PostListViewModelTest {
 
     @Test
     fun `retry clears the error and syncs again`() = runTest {
-        repository.refreshResult = Result.Error(DataError.Network.NO_INTERNET)
+        repository.refreshResult = DataResult.Failure(DataError.NO_INTERNET)
         val viewModel = PostListViewModel(repository)
 
-        repository.refreshResult = Result.Success(Unit)
+        repository.refreshResult = DataResult.Success(Unit)
         viewModel.onAction(PostListAction.Retry)
 
         assertNull(viewModel.uiState.value.syncError)
@@ -95,7 +95,7 @@ class PostListViewModelTest {
 
     @Test
     fun `failed delete clears the deleting state and shows a message`() = runTest {
-        repository.deleteResult = Result.Error(DataError.Network.NO_INTERNET)
+        repository.deleteResult = DataResult.Failure(DataError.NO_INTERNET)
         val viewModel = PostListViewModel(repository)
 
         viewModel.events.test {

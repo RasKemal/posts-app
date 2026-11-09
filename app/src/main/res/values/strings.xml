@@ -17,7 +17,7 @@
     <string name="label_description">Description</string>
     <string name="action_save">Save</string>
     <string name="cd_back">Back</string>
-    <string name="message_post_saved">Post saved</string>
+    <string name="loading_post">Loading post…</string>
     <string name="error_title_blank">Title can\'t be empty</string>
     <string name="dialog_discard_title">Discard changes?</string>
     <string name="dialog_discard_message">Your unsaved changes will be lost.</string>

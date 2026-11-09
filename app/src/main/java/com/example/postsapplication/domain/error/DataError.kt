@@ -1,18 +1,15 @@
 package com.example.postsapplication.domain.error
 
-import com.example.postsapplication.core.common.RootError
+enum class DataError {
+    /** No connection, or the request timed out. */
+    NO_INTERNET,
 
-sealed interface DataError : RootError {
-    enum class Network : DataError {
-        NO_INTERNET,
-        REQUEST_TIMEOUT,
-        NOT_FOUND,
-        SERVER_ERROR,
-        SERIALIZATION,
-        UNKNOWN,
-    }
+    /** HTTP 404, or the post isn't in the local database. */
+    NOT_FOUND,
 
-    enum class Local : DataError {
-        NOT_FOUND,
-    }
+    /** HTTP 5xx. */
+    SERVER_ERROR,
+
+    /** Anything else: other HTTP codes, unreadable response, database error. */
+    UNKNOWN,
 }

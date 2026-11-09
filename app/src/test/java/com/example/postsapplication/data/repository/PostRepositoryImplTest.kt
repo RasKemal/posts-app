@@ -2,7 +2,7 @@ package com.example.postsapplication.data.repository
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.example.postsapplication.core.common.Result
+import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.data.local.PostsDatabase
 import com.example.postsapplication.data.local.dao.PostDao
 import com.example.postsapplication.data.remote.PostApi
@@ -62,7 +62,7 @@ class PostRepositoryImplTest {
 
         val result = repository().refresh()
 
-        assertTrue(result is Result.Success)
+        assertTrue(result is DataResult.Success)
         assertEquals(3, postDao.count())
         assertEquals("title 1", postDao.getPost(1)?.title)
     }
@@ -79,7 +79,7 @@ class PostRepositoryImplTest {
         server.enqueue(MockResponse.Builder().code(304).addHeader("ETag", ETAG).build())
         val result = repository.refresh()
 
-        assertTrue(result is Result.Success)
+        assertTrue(result is DataResult.Success)
         assertEquals(ETAG, server.takeRequest().headers["If-None-Match"])
         assertEquals("unchanged", postDao.getPost(1)?.title)
     }
@@ -105,7 +105,7 @@ class PostRepositoryImplTest {
 
         val result = repository.refresh()
 
-        assertEquals(Result.Error(DataError.Network.NO_INTERNET), result)
+        assertEquals(DataResult.Failure(DataError.NO_INTERNET), result)
     }
 
     @Test
@@ -114,7 +114,7 @@ class PostRepositoryImplTest {
 
         val result = repository().refresh()
 
-        assertEquals(Result.Error(DataError.Network.SERVER_ERROR), result)
+        assertEquals(DataResult.Failure(DataError.SERVER_ERROR), result)
     }
 
     @Test
@@ -124,7 +124,7 @@ class PostRepositoryImplTest {
 
         val result = repository.updatePost(1, title = "new title", body = "new body")
 
-        assertTrue(result is Result.Success)
+        assertTrue(result is DataResult.Success)
         assertEquals("PUT", server.takeRequest().method)
         val post = repository.observePost(1).first()!!
         assertEquals("new title", post.title)
@@ -139,7 +139,7 @@ class PostRepositoryImplTest {
 
         val result = repository.updatePost(1, title = "new title", body = "new body")
 
-        assertEquals(Result.Error(DataError.Network.SERVER_ERROR), result)
+        assertEquals(DataResult.Failure(DataError.SERVER_ERROR), result)
         val post = postDao.getPost(1)!!
         assertEquals("title 1", post.title)
         assertFalse(post.isLocallyModified)
@@ -149,7 +149,7 @@ class PostRepositoryImplTest {
     fun `updatePost returns not found for an unknown post`() = runTest {
         val result = repository().updatePost(99, title = "t", body = "b")
 
-        assertEquals(Result.Error(DataError.Local.NOT_FOUND), result)
+        assertEquals(DataResult.Failure(DataError.NOT_FOUND), result)
         assertEquals(0, server.requestCount)
     }
 
@@ -160,7 +160,7 @@ class PostRepositoryImplTest {
 
         val result = repository.deletePost(1)
 
-        assertTrue(result is Result.Success)
+        assertTrue(result is DataResult.Success)
         assertEquals("DELETE", server.takeRequest().method)
         assertNull(repository.observePost(1).first())
     }
@@ -172,7 +172,7 @@ class PostRepositoryImplTest {
 
         val result = repository.deletePost(1)
 
-        assertEquals(Result.Error(DataError.Network.SERVER_ERROR), result)
+        assertEquals(DataResult.Failure(DataError.SERVER_ERROR), result)
         assertEquals(1, repository.observePost(1).first()?.id)
     }
 
@@ -183,7 +183,7 @@ class PostRepositoryImplTest {
 
         val result = offline.deletePost(1)
 
-        assertEquals(Result.Error(DataError.Network.NO_INTERNET), result)
+        assertEquals(DataResult.Failure(DataError.NO_INTERNET), result)
         assertEquals(1, seeded.observePost(1).first()?.id)
     }
 
@@ -194,7 +194,7 @@ class PostRepositoryImplTest {
 
         val result = repository.deletePost(1)
 
-        assertTrue(result is Result.Success)
+        assertTrue(result is DataResult.Success)
         assertNull(repository.observePost(1).first())
     }
 

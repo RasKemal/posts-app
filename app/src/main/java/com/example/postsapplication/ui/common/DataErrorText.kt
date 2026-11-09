@@ -8,9 +8,7 @@ import com.example.postsapplication.domain.error.DataError
 data class ErrorMessage(val title: UiText, val description: UiText)
 
 fun DataError.toErrorMessage(): ErrorMessage = when (this) {
-    DataError.Network.NO_INTERNET,
-    DataError.Network.REQUEST_TIMEOUT,
-    -> ErrorMessage(
+    DataError.NO_INTERNET -> ErrorMessage(
         title = UiText.StringResource(R.string.error_no_internet_title),
         description = UiText.StringResource(R.string.error_no_internet_description),
     )
@@ -19,6 +17,3 @@ fun DataError.toErrorMessage(): ErrorMessage = when (this) {
         description = UiText.StringResource(R.string.error_generic_description),
     )
 }
-
-val DataError.isConnectivityError: Boolean
-    get() = this == DataError.Network.NO_INTERNET || this == DataError.Network.REQUEST_TIMEOUT

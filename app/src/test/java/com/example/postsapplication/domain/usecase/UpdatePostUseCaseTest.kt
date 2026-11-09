@@ -1,8 +1,8 @@
 package com.example.postsapplication.domain.usecase
 
-import com.example.postsapplication.core.common.Result
 import com.example.postsapplication.domain.error.DataError
-import com.example.postsapplication.domain.error.UpdatePostError
+import com.example.postsapplication.domain.result.DataResult
+import com.example.postsapplication.domain.result.UpdatePostResult
 import com.example.postsapplication.testing.FakePostRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -18,7 +18,7 @@ class UpdatePostUseCaseTest {
     fun `blank title is rejected without calling the repository`() = runTest {
         val result = updatePost(1, title = "   ", body = "body")
 
-        assertEquals(Result.Error(UpdatePostError.BlankTitle), result)
+        assertEquals(UpdatePostResult.BlankTitle, result)
         assertTrue(repository.updateCalls.isEmpty())
     }
 
@@ -26,16 +26,16 @@ class UpdatePostUseCaseTest {
     fun `title and body are trimmed`() = runTest {
         val result = updatePost(1, title = "  title ", body = " body  ")
 
-        assertEquals(Result.Success(Unit), result)
+        assertEquals(UpdatePostResult.Success, result)
         assertEquals(listOf(Triple(1, "title", "body")), repository.updateCalls)
     }
 
     @Test
-    fun `repository errors are wrapped`() = runTest {
-        repository.updateResult = Result.Error(DataError.Network.NO_INTERNET)
+    fun `repository failures are passed on`() = runTest {
+        repository.updateResult = DataResult.Failure(DataError.NO_INTERNET)
 
         val result = updatePost(1, title = "title", body = "body")
 
-        assertEquals(Result.Error(UpdatePostError.Failed(DataError.Network.NO_INTERNET)), result)
+        assertEquals(UpdatePostResult.Failure(DataError.NO_INTERNET), result)
     }
 }
