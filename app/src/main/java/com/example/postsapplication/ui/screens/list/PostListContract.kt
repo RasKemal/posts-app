@@ -2,7 +2,6 @@ package com.example.postsapplication.ui.screens.list
 
 import androidx.compose.runtime.Immutable
 import com.example.postsapplication.domain.error.DataError
-import com.example.postsapplication.ui.common.UiText
 
 @Immutable
 data class PostListUiState(
@@ -10,7 +9,6 @@ data class PostListUiState(
     val isRefreshing: Boolean = false,
     val isSyncing: Boolean = false,
     val syncError: DataError? = null,
-    val deletingIds: Set<Int> = emptySet(),
 )
 
 sealed interface PostListAction {
@@ -21,6 +19,5 @@ sealed interface PostListAction {
 }
 
 sealed interface PostListEvent {
-    data class ShowMessage(val message: UiText) : PostListEvent
     data object SyncFailed : PostListEvent
 }

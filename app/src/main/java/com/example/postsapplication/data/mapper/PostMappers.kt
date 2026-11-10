@@ -9,8 +9,6 @@ fun postImageUrl(id: Int): String = "https://picsum.photos/300/300?random=$id&gr
 
 fun PostDto.toEntity(): PostEntity = PostEntity(id = id, userId = userId, title = title, body = body)
 
-fun PostEntity.toDto(): PostDto = PostDto(userId = userId, id = id, title = title, body = body)
-
 fun PostEntity.toDomain(): Post = Post(
     id = id,
     title = title,

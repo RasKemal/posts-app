@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.flowOf
 class FakePostRepository : PostRepository {
 
     var refreshResult: DataResult<Unit> = DataResult.Success(Unit)
-    var updateResult: DataResult<Unit> = DataResult.Success(Unit)
-    var deleteResult: DataResult<Unit> = DataResult.Success(Unit)
 
     /** When set, refresh suspends until it is completed, to observe in-progress state. */
     var refreshGate: CompletableDeferred<Unit>? = null
@@ -38,13 +36,11 @@ class FakePostRepository : PostRepository {
         return refreshResult
     }
 
-    override suspend fun updatePost(id: Int, title: String, body: String): DataResult<Unit> {
+    override suspend fun updatePost(id: Int, title: String, body: String) {
         updateCalls += Triple(id, title, body)
-        return updateResult
     }
 
-    override suspend fun deletePost(id: Int): DataResult<Unit> {
+    override suspend fun deletePost(id: Int) {
         deleteCalls += id
-        return deleteResult
     }
 }

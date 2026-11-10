@@ -9,6 +9,6 @@ interface PostRepository {
     fun pagedPosts(query: String?): Flow<PagingData<Post>>
     fun observePost(id: Int): Flow<Post?>
     suspend fun refresh(): DataResult<Unit>
-    suspend fun updatePost(id: Int, title: String, body: String): DataResult<Unit>
-    suspend fun deletePost(id: Int): DataResult<Unit>
+    suspend fun updatePost(id: Int, title: String, body: String)
+    suspend fun deletePost(id: Int)
 }

@@ -8,7 +8,6 @@ import com.example.postsapplication.data.remote.PostApi
 import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.result.DataResult
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import mockwebserver3.MockResponse
@@ -18,7 +17,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -118,14 +116,12 @@ class PostRepositoryImplTest {
     }
 
     @Test
-    fun `updatePost writes to the cache after the server accepts it`() = runTest {
+    fun `updatePost writes to Room without a network request`() = runTest {
         val repository = seededRepository()
-        server.enqueue(MockResponse.Builder().code(200).body(postJson(1, "new title")).build())
 
-        val result = repository.updatePost(1, title = "new title", body = "new body")
+        repository.updatePost(1, title = "new title", body = "new body")
 
-        assertTrue(result is DataResult.Success)
-        assertEquals("PUT", server.takeRequest().method)
+        assertEquals(1, server.requestCount) // only the seeding refresh
         val post = repository.observePost(1).first()!!
         assertEquals("new title", post.title)
         assertEquals("new body", post.body)
@@ -133,61 +129,17 @@ class PostRepositoryImplTest {
     }
 
     @Test
-    fun `updatePost leaves the cache unchanged when the server fails`() = runTest {
+    fun `deletePost hides the post without a network request`() = runTest {
         val repository = seededRepository()
-        server.enqueue(MockResponse.Builder().code(500).build())
 
-        val result = repository.updatePost(1, title = "new title", body = "new body")
+        repository.deletePost(1)
 
-        assertEquals(DataResult.Failure(DataError.SERVER_ERROR), result)
-        val post = postDao.getPost(1)!!
-        assertEquals("title 1", post.title)
-        assertFalse(post.isLocallyModified)
-    }
-
-    @Test
-    fun `updatePost returns not found for an unknown post`() = runTest {
-        val result = repository().updatePost(99, title = "t", body = "b")
-
-        assertEquals(DataResult.Failure(DataError.NOT_FOUND), result)
-        assertEquals(0, server.requestCount)
-    }
-
-    @Test
-    fun `deletePost removes the post after the server accepts it`() = runTest {
-        val repository = seededRepository()
-        server.enqueue(MockResponse.Builder().code(200).body("{}").build())
-
-        val result = repository.deletePost(1)
-
-        assertTrue(result is DataResult.Success)
-        assertEquals("DELETE", server.takeRequest().method)
+        assertEquals(1, server.requestCount) // only the seeding refresh
         assertNull(repository.observePost(1).first())
+        assertTrue(postDao.getPost(1)!!.isDeleted)
     }
 
-    @Test
-    fun `deletePost keeps the post when the server fails`() = runTest {
-        val repository = seededRepository()
-        server.enqueue(MockResponse.Builder().code(500).build())
-
-        val result = repository.deletePost(1)
-
-        assertEquals(DataResult.Failure(DataError.SERVER_ERROR), result)
-        assertEquals(1, repository.observePost(1).first()?.id)
-    }
-
-    @Test
-    fun `deletePost keeps the post when offline`() = runTest {
-        val seeded = seededRepository()
-        val offline = repository(baseUrl = unreachableUrl())
-
-        val result = offline.deletePost(1)
-
-        assertEquals(DataResult.Failure(DataError.NO_INTERNET), result)
-        assertEquals(1, seeded.observePost(1).first()?.id)
-    }
-
-    private suspend fun TestScope.seededRepository(): PostRepositoryImpl {
+    private suspend fun seededRepository(): PostRepositoryImpl {
         val repository = repository()
         server.enqueue(postsResponse(ids = 1..3))
         repository.refresh()
@@ -195,7 +147,7 @@ class PostRepositoryImplTest {
         return repository
     }
 
-    private fun TestScope.repository(baseUrl: String = server.url("/").toString()): PostRepositoryImpl {
+    private fun repository(baseUrl: String = server.url("/").toString()): PostRepositoryImpl {
         val client = OkHttpClient.Builder()
             .cache(Cache(tempFolder.newFolder(), 1024 * 1024))
             .build()
@@ -205,11 +157,7 @@ class PostRepositoryImplTest {
             .addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory("application/json".toMediaType()))
             .build()
             .create(PostApi::class.java)
-        return PostRepositoryImpl(
-            api = api,
-            postDao = postDao,
-            appScope = backgroundScope,
-        )
+        return PostRepositoryImpl(api = api, postDao = postDao)
     }
 
     private fun unreachableUrl(): String {

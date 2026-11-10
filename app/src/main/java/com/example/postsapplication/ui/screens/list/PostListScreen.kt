@@ -66,7 +66,6 @@ fun PostListRoot(
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            is PostListEvent.ShowMessage -> snackbarHostState.showSnackbar(event.message.asString(resources))
             PostListEvent.SyncFailed -> if (posts.itemCount > 0) {
                 snackbarHostState.showSnackbar(resources.getString(R.string.error_refresh_failed))
             }
@@ -131,7 +130,6 @@ fun PostListScreen(
             if (content == PostListContent.Posts) {
                 PostList(
                     posts = posts,
-                    deletingIds = uiState.deletingIds,
                     contentPadding = bottomPadding,
                     onPostClick = onPostClick,
                     onDelete = { onAction(PostListAction.Delete(it)) },
@@ -150,7 +148,6 @@ fun PostListScreen(
 @Composable
 private fun PostList(
     posts: LazyPagingItems<PostListItemUiModel>,
-    deletingIds: Set<Int>,
     contentPadding: PaddingValues,
     onPostClick: (Int) -> Unit,
     onDelete: (Int) -> Unit,
@@ -167,7 +164,6 @@ private fun PostList(
             val post = posts[index] ?: return@items
             Column(Modifier.animateItem()) {
                 SwipeToDeleteContainer(
-                    isDeleting = post.id in deletingIds,
                     onDelete = { onDelete(post.id) },
                 ) {
                     PostRow(post = post, onClick = { onPostClick(post.id) })

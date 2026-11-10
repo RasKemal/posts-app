@@ -1,12 +1,10 @@
 package com.example.postsapplication.ui.screens.list
 
 import app.cash.turbine.test
-import com.example.postsapplication.R
 import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.testing.FakePostRepository
 import com.example.postsapplication.testing.MainDispatcherRule
-import com.example.postsapplication.ui.common.UiText
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -84,29 +82,12 @@ class PostListViewModelTest {
     }
 
     @Test
-    fun `successful delete keeps the post marked as deleting`() = runTest {
+    fun `delete removes the post from the repository`() = runTest {
         val viewModel = PostListViewModel(repository)
 
         viewModel.onAction(PostListAction.Delete(7))
 
         assertEquals(listOf(7), repository.deleteCalls)
-        assertEquals(setOf(7), viewModel.uiState.value.deletingIds)
-    }
-
-    @Test
-    fun `failed delete clears the deleting state and shows a message`() = runTest {
-        repository.deleteResult = DataResult.Failure(DataError.NO_INTERNET)
-        val viewModel = PostListViewModel(repository)
-
-        viewModel.events.test {
-            viewModel.onAction(PostListAction.Delete(7))
-
-            assertEquals(
-                PostListEvent.ShowMessage(UiText.StringResource(R.string.error_delete_failed)),
-                awaitItem(),
-            )
-        }
-        assertTrue(viewModel.uiState.value.deletingIds.isEmpty())
     }
 
     @Test

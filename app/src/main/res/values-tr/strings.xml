@@ -35,8 +35,6 @@
     <string name="error_generic_title">Bir şeyler ters gitti</string>
     <string name="error_generic_description">Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.</string>
     <string name="error_post_not_found">Bu gönderi artık mevcut değil.</string>
-    <string name="error_delete_failed">Gönderi silinemedi. Lütfen tekrar deneyin.</string>
-    <string name="error_save_failed">Gönderi kaydedilemedi. Lütfen tekrar deneyin.</string>
     <string name="error_refresh_failed">Yenilenemedi. Kayıtlı gönderiler gösteriliyor.</string>
     <string name="action_retry">Tekrar dene</string>
 </resources>

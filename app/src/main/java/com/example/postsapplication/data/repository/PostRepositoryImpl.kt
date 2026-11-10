@@ -6,16 +6,11 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.postsapplication.data.local.dao.PostDao
 import com.example.postsapplication.data.mapper.toDomain
-import com.example.postsapplication.data.mapper.toDto
 import com.example.postsapplication.data.mapper.toEntity
 import com.example.postsapplication.data.remote.PostApi
-import com.example.postsapplication.di.ApplicationScope
-import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.domain.repository.PostRepository
 import com.example.postsapplication.domain.result.DataResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
@@ -25,7 +20,6 @@ import javax.inject.Inject
 class PostRepositoryImpl @Inject constructor(
     private val api: PostApi,
     private val postDao: PostDao,
-    @param:ApplicationScope private val appScope: CoroutineScope,
 ) : PostRepository {
 
     override fun pagedPosts(query: String?): Flow<PagingData<Post>> =
@@ -49,26 +43,11 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updatePost(id: Int, title: String, body: String): DataResult<Unit> =
-        appScope.async {
-            val post = postDao.getPost(id) ?: return@async DataResult.Failure(DataError.NOT_FOUND)
-            runDataOperation {
-                api.updatePost(id, post.toDto().copy(title = title, body = body))
-                postDao.updateContent(id, title, body)
-            }
-        }.await()
+    // Writes are local: JSONPlaceholder doesn't persist them, so the flags keep them safe from refresh.
+    override suspend fun updatePost(id: Int, title: String, body: String) =
+        postDao.updateContent(id, title, body)
 
-    override suspend fun deletePost(id: Int): DataResult<Unit> =
-        appScope.async {
-            when (val result = runDataOperation { api.deletePost(id) }) {
-                // Already gone on the server (404) counts as deleted.
-                is DataResult.Success, DataResult.Failure(DataError.NOT_FOUND) -> {
-                    postDao.markDeleted(id)
-                    DataResult.Success(Unit)
-                }
-                is DataResult.Failure -> result
-            }
-        }.await()
+    override suspend fun deletePost(id: Int) = postDao.markDeleted(id)
 
     private companion object {
         const val PAGE_SIZE = 20

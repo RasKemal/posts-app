@@ -4,17 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,33 +24,33 @@ import com.example.postsapplication.R
 
 @Composable
 fun SwipeToDeleteContainer(
-    isDeleting: Boolean,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    val state = rememberSwipeToDismissBoxState()
-    var wasDeleting by remember { mutableStateOf(isDeleting) }
-
-    LaunchedEffect(isDeleting) {
-        if (wasDeleting && !isDeleting) state.reset()
-        wasDeleting = isDeleting
-    }
+    // SwipeToDismissBox calls onDismiss again whenever the lambda changes while it is dismissed.
+    // A removed row stays composed during animateItem's fade-out and can be rebound to the next
+    // post, so without this guard one swipe would delete several posts.
+    var isDeleted by remember { mutableStateOf(false) }
 
     SwipeToDismissBox(
-        state = state,
+        state = rememberSwipeToDismissBoxState(),
         modifier = modifier,
         enableDismissFromStartToEnd = false,
-        gesturesEnabled = !isDeleting,
-        onDismiss = { value -> if (value == SwipeToDismissBoxValue.EndToStart) onDelete() },
-        backgroundContent = { DeleteBackground(isDeleting = isDeleting) },
+        onDismiss = { value ->
+            if (value == SwipeToDismissBoxValue.EndToStart && !isDeleted) {
+                isDeleted = true
+                onDelete()
+            }
+        },
+        backgroundContent = { DeleteBackground() },
     ) {
         content()
     }
 }
 
 @Composable
-private fun DeleteBackground(isDeleting: Boolean) {
+private fun DeleteBackground() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -61,18 +58,10 @@ private fun DeleteBackground(isDeleting: Boolean) {
             .padding(horizontal = 24.dp),
         contentAlignment = Alignment.CenterEnd,
     ) {
-        if (isDeleting) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(24.dp),
-                strokeWidth = 2.dp,
-                color = MaterialTheme.colorScheme.onErrorContainer,
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = stringResource(R.string.cd_delete_post),
-                tint = MaterialTheme.colorScheme.onErrorContainer,
-            )
-        }
+        Icon(
+            imageVector = Icons.Filled.Delete,
+            contentDescription = stringResource(R.string.cd_delete_post),
+            tint = MaterialTheme.colorScheme.onErrorContainer,
+        )
     }
 }

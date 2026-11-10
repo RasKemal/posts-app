@@ -1,6 +1,5 @@
 package com.example.postsapplication.ui.screens.detail
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshotFlow
@@ -11,7 +10,6 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import androidx.navigation.toRoute
 import com.example.postsapplication.R
-import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.repository.PostRepository
 import com.example.postsapplication.domain.result.UpdatePostResult
 import com.example.postsapplication.domain.usecase.UpdatePostUseCase
@@ -95,12 +93,13 @@ class PostDetailViewModel @Inject constructor(
         if (state.value.isSaving) return
         state.update { it.copy(isSaving = true) }
         viewModelScope.launch {
-            when (val result = updatePostUseCase(postId, titleState.text.toString(), bodyState.text.toString())) {
+            when (updatePostUseCase(postId, titleState.text.toString(), bodyState.text.toString())) {
+                // isSaving stays true: it blocks a second tap from navigating back twice.
                 UpdatePostResult.Success -> _events.send(PostDetailEvent.NavigateBack)
-                UpdatePostResult.BlankTitle -> onSaveFailed(R.string.error_title_blank)
-                is UpdatePostResult.Failure -> onSaveFailed(
-                    if (result.error == DataError.NO_INTERNET) R.string.error_no_internet_title else R.string.error_save_failed,
-                )
+                UpdatePostResult.BlankTitle -> {
+                    state.update { it.copy(isSaving = false) }
+                    _events.send(PostDetailEvent.ShowMessage(UiText.StringResource(R.string.error_title_blank)))
+                }
             }
         }
     }
@@ -112,11 +111,6 @@ class PostDetailViewModel @Inject constructor(
         } else {
             _events.trySend(PostDetailEvent.NavigateBack)
         }
-    }
-
-    private suspend fun onSaveFailed(@StringRes message: Int) {
-        state.update { it.copy(isSaving = false) }
-        _events.send(PostDetailEvent.ShowMessage(UiText.StringResource(message)))
     }
 
     private companion object {

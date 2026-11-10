@@ -1,7 +1,5 @@
 package com.example.postsapplication.domain.usecase
 
-import com.example.postsapplication.domain.error.DataError
-import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.domain.result.UpdatePostResult
 import com.example.postsapplication.testing.FakePostRepository
 import kotlinx.coroutines.test.runTest
@@ -28,14 +26,5 @@ class UpdatePostUseCaseTest {
 
         assertEquals(UpdatePostResult.Success, result)
         assertEquals(listOf(Triple(1, "title", "body")), repository.updateCalls)
-    }
-
-    @Test
-    fun `repository failures are passed on`() = runTest {
-        repository.updateResult = DataResult.Failure(DataError.NO_INTERNET)
-
-        val result = updatePost(1, title = "title", body = "body")
-
-        assertEquals(UpdatePostResult.Failure(DataError.NO_INTERNET), result)
     }
 }

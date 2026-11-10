@@ -5,10 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.postsapplication.R
 import com.example.postsapplication.domain.repository.PostRepository
 import com.example.postsapplication.domain.result.DataResult
-import com.example.postsapplication.ui.common.UiText
 import com.example.postsapplication.ui.common.prepareForSearch
 import com.example.postsapplication.ui.screens.list.model.PostListItemUiModel
 import com.example.postsapplication.ui.screens.list.model.toListItemUiModel
@@ -77,14 +75,8 @@ class PostListViewModel @Inject constructor(
         }
     }
 
+    // Room change → PagingSource invalidated → the row leaves the list.
     private fun delete(id: Int) {
-        if (id in _uiState.value.deletingIds) return
-        _uiState.update { it.copy(deletingIds = it.deletingIds + id) }
-        viewModelScope.launch {
-            if (repository.deletePost(id) is DataResult.Failure) {
-                _uiState.update { it.copy(deletingIds = it.deletingIds - id) }
-                _events.send(PostListEvent.ShowMessage(UiText.StringResource(R.string.error_delete_failed)))
-            }
-        }
+        viewModelScope.launch { repository.deletePost(id) }
     }
 }

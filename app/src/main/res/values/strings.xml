@@ -35,8 +35,6 @@
     <string name="error_generic_title">Something went wrong</string>
     <string name="error_generic_description">An unexpected error occurred. Please try again.</string>
     <string name="error_post_not_found">This post no longer exists.</string>
-    <string name="error_delete_failed">Couldn\'t delete the post. Please try again.</string>
-    <string name="error_save_failed">Couldn\'t save the post. Please try again.</string>
     <string name="error_refresh_failed">Couldn\'t refresh. Showing saved posts.</string>
     <string name="action_retry">Retry</string>
 </resources>

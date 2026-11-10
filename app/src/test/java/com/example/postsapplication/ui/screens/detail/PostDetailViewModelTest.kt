@@ -4,14 +4,10 @@ import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshots.Snapshot
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.example.postsapplication.R
-import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.model.Post
-import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.domain.usecase.UpdatePostUseCase
 import com.example.postsapplication.testing.FakePostRepository
 import com.example.postsapplication.testing.MainDispatcherRule
-import com.example.postsapplication.ui.common.UiText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
@@ -113,25 +109,6 @@ class PostDetailViewModelTest {
             assertEquals(PostDetailEvent.NavigateBack, awaitItem())
         }
         assertEquals(listOf(Triple(1, "new title", "new body")), repository.updateCalls)
-    }
-
-    @Test
-    fun `failed save keeps the edits and shows a message`() = runTest {
-        repository.updateResult = DataResult.Failure(DataError.NO_INTERNET)
-        val viewModel = viewModel()
-        viewModel.type(title = "new title")
-
-        viewModel.events.test {
-            viewModel.onAction(PostDetailAction.Save)
-
-            assertEquals(
-                PostDetailEvent.ShowMessage(UiText.StringResource(R.string.error_no_internet_title)),
-                awaitItem(),
-            )
-        }
-        assertFalse(viewModel.uiState.value.isSaving)
-        assertTrue(viewModel.uiState.value.canSave)
-        assertEquals("new title", viewModel.titleState.text.toString())
     }
 
     @Test
