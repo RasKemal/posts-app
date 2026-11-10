@@ -56,7 +56,7 @@ import com.example.postsapplication.ui.components.PostImage
 import com.example.postsapplication.ui.theme.PostsTheme
 
 @Composable
-fun PostDetailRoute(
+fun PostDetailRoot(
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PostDetailViewModel = hiltViewModel(),

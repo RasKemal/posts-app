@@ -3,7 +3,6 @@ package com.example.postsapplication.ui.screens.list.model
 import androidx.paging.LoadState
 import com.example.postsapplication.domain.error.DataError
 
-/** What the list area shows, derived from the paged items and the sync state. */
 sealed interface PostListContent {
     data object Posts : PostListContent
     data class Loading(val isSearching: Boolean) : PostListContent

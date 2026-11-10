@@ -7,7 +7,7 @@ import org.junit.Test
 class PostListItemUiModelTest {
 
     private fun post(body: String) =
-        Post(id = 1, title = "title", body = body, imageUrl = "url", isEdited = true)
+        Post(id = 1, title = "title", body = body, imageUrl = "url")
 
     @Test
     fun `line breaks in the body become single spaces`() {
@@ -25,6 +25,6 @@ class PostListItemUiModelTest {
     fun `other fields are copied`() {
         val item = post("body").toListItemUiModel()
 
-        assertEquals(PostListItemUiModel(1, "title", "body", "url", isEdited = true), item)
+        assertEquals(PostListItemUiModel(1, "title", "body", "url"), item)
     }
 }

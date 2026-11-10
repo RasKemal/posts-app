@@ -5,7 +5,6 @@ import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.domain.result.UpdatePostResult
 import javax.inject.Inject
 
-/** Validates and trims the edit before sending it; the title is required. */
 class UpdatePostUseCase @Inject constructor(
     private val repository: PostRepository,
 ) {

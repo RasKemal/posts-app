@@ -16,7 +16,7 @@ import com.example.postsapplication.domain.repository.PostRepository
 import com.example.postsapplication.domain.result.UpdatePostResult
 import com.example.postsapplication.domain.usecase.UpdatePostUseCase
 import com.example.postsapplication.ui.common.UiText
-import com.example.postsapplication.ui.navigation.PostDetail
+import com.example.postsapplication.ui.navigation.PostDetailRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -36,13 +36,11 @@ import javax.inject.Inject
 class PostDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val repository: PostRepository,
-    private val updatePost: UpdatePostUseCase,
+    private val updatePostUseCase: UpdatePostUseCase,
 ) : ViewModel() {
 
-    private val postId = savedStateHandle.toRoute<PostDetail>().id
+    private val postId = savedStateHandle.toRoute<PostDetailRoute>().id
 
-    // Text lives in TextFieldState (synchronous edits) and is saved in SavedStateHandle,
-    // so unsaved edits survive rotation and process death.
     val titleState: TextFieldState =
         savedStateHandle.saveable(key = KEY_TITLE, saver = TextFieldState.Saver, init = { TextFieldState() })
     val bodyState: TextFieldState =
@@ -82,7 +80,7 @@ class PostDetailViewModel @Inject constructor(
             state.update { it.copy(isLoading = false, isNotFound = true) }
             return
         }
-        // Fill the fields only the first time; after process death they hold the restored draft.
+
         if (savedStateHandle.get<Boolean>(KEY_DRAFT_STARTED) != true) {
             titleState.setTextAndPlaceCursorAtEnd(post.title)
             bodyState.setTextAndPlaceCursorAtEnd(post.body)
@@ -97,8 +95,7 @@ class PostDetailViewModel @Inject constructor(
         if (state.value.isSaving) return
         state.update { it.copy(isSaving = true) }
         viewModelScope.launch {
-            when (val result = updatePost(postId, titleState.text.toString(), bodyState.text.toString())) {
-                // isSaving stays true so the form doesn't flash enabled while leaving.
+            when (val result = updatePostUseCase(postId, titleState.text.toString(), bodyState.text.toString())) {
                 UpdatePostResult.Success -> _events.send(PostDetailEvent.NavigateBack)
                 UpdatePostResult.BlankTitle -> onSaveFailed(R.string.error_title_blank)
                 is UpdatePostResult.Failure -> onSaveFailed(

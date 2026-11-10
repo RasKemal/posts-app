@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 private const val SHIMMER_DURATION_MILLIS = 1200
 
-/** Loading shimmer built on [Modifier.Node] (only invalidates the draw phase). */
 fun Modifier.shimmer(color: Color): Modifier = this then ShimmerElement(color)
 
 private data class ShimmerElement(val color: Color) : ModifierNodeElement<ShimmerNode>() {

@@ -10,7 +10,7 @@ import kotlinx.coroutines.SupervisorJob
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-/** App-wide scope for work that must outlive a screen (e.g. server writes). */
+/** App-wide scope for work that must outlive a screen. */
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ApplicationScope

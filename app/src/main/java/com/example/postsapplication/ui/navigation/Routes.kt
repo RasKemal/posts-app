@@ -3,7 +3,7 @@ package com.example.postsapplication.ui.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object PostList
+data object PostListRoute
 
 @Serializable
-data class PostDetail(val id: Int)
+data class PostDetailRoute(val id: Int)

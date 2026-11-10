@@ -22,10 +22,6 @@ import retrofit2.HttpException
 import java.net.HttpURLConnection.HTTP_NOT_MODIFIED
 import javax.inject.Inject
 
-/**
- * Reads are offline-first (Room is the single source of truth), writes are server-first.
- * Writes run in [appScope] so they complete even if the calling screen goes away.
- */
 class PostRepositoryImpl @Inject constructor(
     private val api: PostApi,
     private val postDao: PostDao,
@@ -57,8 +53,8 @@ class PostRepositoryImpl @Inject constructor(
         appScope.async {
             val post = postDao.getPost(id) ?: return@async DataResult.Failure(DataError.NOT_FOUND)
             runDataOperation {
-                api.updatePost(id, post.toDto().copy(title = title, body = body)) // throws on failure…
-                postDao.updateContent(id, title, body) // …so the cache only changes after the server accepts
+                api.updatePost(id, post.toDto().copy(title = title, body = body))
+                postDao.updateContent(id, title, body)
             }
         }.await()
 

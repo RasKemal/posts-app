@@ -15,7 +15,7 @@ fun PostsNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = PostList,
+        startDestination = PostListRoute,
         modifier = modifier,
     ) {
         postListScreen(onPostClick = navController::navigateToPostDetail)

@@ -40,7 +40,6 @@ class PostListViewModel @Inject constructor(
     private val _events = Channel<PostListEvent>(Channel.BUFFERED)
     val events: Flow<PostListEvent> = _events.receiveAsFlow()
 
-    // Kept apart from uiState: PagingData must not be combined into other state.
     val posts: Flow<PagingData<PostListItemUiModel>> = _uiState
         .map { it.query }
         .distinctUntilChanged()
@@ -86,7 +85,6 @@ class PostListViewModel @Inject constructor(
                 _uiState.update { it.copy(deletingIds = it.deletingIds - id) }
                 _events.send(PostListEvent.ShowMessage(UiText.StringResource(R.string.error_delete_failed)))
             }
-            // On success the id stays in deletingIds until the row leaves the list.
         }
     }
 }

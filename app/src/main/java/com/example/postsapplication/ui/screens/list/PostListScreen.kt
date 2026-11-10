@@ -54,7 +54,7 @@ import com.example.postsapplication.ui.theme.PostsTheme
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun PostListRoute(
+fun PostListRoot(
     onPostClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PostListViewModel = hiltViewModel(),
@@ -232,7 +232,6 @@ private val previewPosts = (1..6).map { id ->
         title = "sunt aut facere repellat provident occaecati excepturi optio $id",
         bodyPreview = "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae",
         imageUrl = "",
-        isEdited = id == 2,
     )
 }
 

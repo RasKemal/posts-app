@@ -9,7 +9,6 @@
     <string name="cd_delete_post">Gönderiyi sil</string>
     <string name="loading_posts">Gönderiler yükleniyor…</string>
     <string name="loading_searching">Aranıyor…</string>
-    <string name="label_edited">Düzenlendi</string>
 
     <!-- Detail -->
     <string name="title_edit_post">Gönderiyi düzenle</string>

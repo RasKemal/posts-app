@@ -22,7 +22,5 @@ sealed interface PostListAction {
 
 sealed interface PostListEvent {
     data class ShowMessage(val message: UiText) : PostListEvent
-
-    /** The UI shows this as a snackbar only when cached posts are on screen. */
     data object SyncFailed : PostListEvent
 }

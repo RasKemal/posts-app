@@ -10,8 +10,6 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface PostApi {
-
-    // max-age=0 makes OkHttp revalidate the cached copy with If-None-Match; unchanged data returns 304.
     @Headers("Cache-Control: max-age=0")
     @GET("posts")
     suspend fun getPosts(): Response<List<PostDto>>

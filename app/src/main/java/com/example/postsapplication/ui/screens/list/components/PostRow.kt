@@ -17,11 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.postsapplication.R
 import com.example.postsapplication.ui.components.PostImage
 import com.example.postsapplication.ui.screens.list.model.PostListItemUiModel
 import com.example.postsapplication.ui.theme.PostsTheme
@@ -66,14 +64,6 @@ fun PostRow(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
-            if (post.isEdited) {
-                Text(
-                    text = stringResource(R.string.label_edited),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
-            }
         }
     }
 }
@@ -88,7 +78,6 @@ private fun PostRowPreview() {
                 title = "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
                 bodyPreview = "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit",
                 imageUrl = "",
-                isEdited = true,
             ),
             onClick = {},
         )

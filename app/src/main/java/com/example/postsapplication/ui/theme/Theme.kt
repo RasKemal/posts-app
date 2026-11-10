@@ -1,45 +1,15 @@
 package com.example.postsapplication.ui.theme
 
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-
-private val LightColorScheme = lightColorScheme(
-    primary = GreenDark,
-    onPrimary = Color.White,
-    primaryContainer = GreenContainerLight,
-    onPrimaryContainer = GreenContainerDark,
-    secondary = GreenDark,
-    background = LightBackground,
-    onBackground = LightOnSurface,
-    surface = LightSurface,
-    onSurface = LightOnSurface,
-    surfaceVariant = LightSurfaceVariant,
-    onSurfaceVariant = LightOnSurfaceVariant,
-    surfaceContainerLowest = LightContainerLowest,
-    surfaceContainerLow = LightContainerLow,
-    surfaceContainer = LightContainer,
-    surfaceContainerHigh = LightContainerHigh,
-    surfaceContainerHighest = LightContainerHighest,
-    secondaryContainer = LightContainerHighest,
-    onSecondaryContainer = LightOnSurface,
-    outlineVariant = LightOutlineVariant,
-    error = ErrorLight,
-    errorContainer = ErrorContainerLight,
-)
 
 private val DarkColorScheme = darkColorScheme(
     primary = Green,
     onPrimary = Color.Black,
-    primaryContainer = GreenContainerDark,
-    onPrimaryContainer = GreenContainerLight,
+    primaryContainer = GreenContainer,
+    onPrimaryContainer = GreenOnContainer,
     secondary = Green,
     background = DarkBackground,
     onBackground = DarkOnSurface,
@@ -55,27 +25,15 @@ private val DarkColorScheme = darkColorScheme(
     secondaryContainer = DarkContainerHighest,
     onSecondaryContainer = DarkOnSurface,
     outlineVariant = DarkOutlineVariant,
-    error = ErrorDark,
-    errorContainer = ErrorContainerDark,
+    error = DarkError,
+    errorContainer = DarkErrorContainer,
 )
 
+/** The app is dark-only, regardless of the system setting. */
 @Composable
-fun PostsTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
-    content: @Composable () -> Unit,
-) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
+fun PostsTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = DarkColorScheme,
         typography = Typography,
         content = content,
     )

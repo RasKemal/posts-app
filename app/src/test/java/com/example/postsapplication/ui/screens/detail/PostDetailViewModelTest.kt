@@ -33,7 +33,7 @@ class PostDetailViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val repository = FakePostRepository().apply {
-        posts[1] = Post(id = 1, title = "title", body = "body", imageUrl = "url", isEdited = false)
+        posts[1] = Post(id = 1, title = "title", body = "body", imageUrl = "url")
     }
 
     private fun TestScope.viewModel(id: Int = 1): PostDetailViewModel {

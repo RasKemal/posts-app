@@ -37,7 +37,6 @@ interface PostDao {
     @Query("UPDATE posts SET title = :title, body = :body, isLocallyModified = 1 WHERE id = :id")
     suspend fun updateContent(id: Int, title: String, body: String)
 
-    /** Applies a full server snapshot without touching posts the user edited or deleted. */
     @Transaction
     suspend fun replaceWithRemote(posts: List<PostEntity>) {
         deleteMissing(posts.map { it.id })

@@ -9,7 +9,6 @@
     <string name="cd_delete_post">Delete post</string>
     <string name="loading_posts">Loading posts…</string>
     <string name="loading_searching">Searching…</string>
-    <string name="label_edited">Edited</string>
 
     <!-- Detail -->
     <string name="title_edit_post">Edit post</string>

@@ -3,10 +3,6 @@ package com.example.postsapplication.ui.screens.detail
 import androidx.compose.runtime.Immutable
 import com.example.postsapplication.ui.common.UiText
 
-/**
- * [title]/[body] mirror the text fields; [originalTitle]/[originalBody] are the saved post,
- * used to detect unsaved changes.
- */
 @Immutable
 data class PostDetailUiState(
     val isLoading: Boolean = true,

@@ -25,10 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.postsapplication.R
 
-/**
- * Swipe right-to-left to delete. The row stays swiped away while [isDeleting]; if the delete
- * fails ([isDeleting] goes back to false) it slides back. On success the row leaves the list.
- */
 @Composable
 fun SwipeToDeleteContainer(
     isDeleting: Boolean,

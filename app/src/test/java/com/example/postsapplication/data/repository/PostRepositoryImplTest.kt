@@ -129,7 +129,7 @@ class PostRepositoryImplTest {
         val post = repository.observePost(1).first()!!
         assertEquals("new title", post.title)
         assertEquals("new body", post.body)
-        assertTrue(post.isEdited)
+        assertTrue(postDao.getPost(1)!!.isLocallyModified)
     }
 
     @Test

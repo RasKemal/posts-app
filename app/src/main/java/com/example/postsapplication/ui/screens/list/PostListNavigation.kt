@@ -2,10 +2,10 @@ package com.example.postsapplication.ui.screens.list
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.postsapplication.ui.navigation.PostList
+import com.example.postsapplication.ui.navigation.PostListRoute
 
 fun NavGraphBuilder.postListScreen(onPostClick: (Int) -> Unit) {
-    composable<PostList> {
-        PostListRoute(onPostClick = onPostClick)
+    composable<PostListRoute> {
+        PostListRoot(onPostClick = onPostClick)
     }
 }
