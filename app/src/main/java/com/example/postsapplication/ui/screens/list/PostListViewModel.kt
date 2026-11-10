@@ -42,8 +42,9 @@ class PostListViewModel @Inject constructor(
         .map { it.query }
         .distinctUntilChanged()
         .prepareForSearch()
-        .flatMapLatest { query -> repository.pagedPosts(query) }
-        .map { pagingData -> pagingData.map { it.toListItemUiModel() } }
+        .flatMapLatest { query ->
+            repository.pagedPosts(query).map { pagingData -> pagingData.map { it.toListItemUiModel(query) } }
+        }
         .cachedIn(viewModelScope)
 
     private var syncJob: Job? = null

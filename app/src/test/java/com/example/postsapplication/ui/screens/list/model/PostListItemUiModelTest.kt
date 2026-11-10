@@ -11,20 +11,26 @@ class PostListItemUiModelTest {
 
     @Test
     fun `line breaks in the body become single spaces`() {
-        val item = post("quia et suscipit\nsuscipit recusandae  \r\n  consequuntur").toListItemUiModel()
+        val item = post("quia et suscipit\nsuscipit recusandae  \r\n  consequuntur").toListItemUiModel(query = null)
 
         assertEquals("quia et suscipit suscipit recusandae consequuntur", item.bodyPreview)
     }
 
     @Test
     fun `spaces inside a line are kept`() {
-        assertEquals("a  b", post("a  b").toListItemUiModel().bodyPreview)
+        assertEquals("a  b", post("a  b").toListItemUiModel(query = null).bodyPreview)
     }
 
     @Test
     fun `other fields are copied`() {
-        val item = post("body").toListItemUiModel()
+        val item = post("body").toListItemUiModel(query = null)
 
-        assertEquals(PostListItemUiModel(1, "title", "body", "url"), item)
+        assertEquals(PostListItemUiModel(1, "#1", "title", "body", "url"), item)
+    }
+
+    @Test
+    fun `list key includes the query so different searches never share keys`() {
+        assertEquals("qui#1", post("body").toListItemUiModel(query = "qui").listKey)
+        assertEquals("#1", post("body").toListItemUiModel(query = null).listKey)
     }
 }

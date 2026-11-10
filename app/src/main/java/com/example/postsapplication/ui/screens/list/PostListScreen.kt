@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -18,8 +19,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
@@ -131,6 +136,7 @@ fun PostListScreen(
             if (content == PostListContent.Posts) {
                 PostList(
                     posts = posts,
+                    query = uiState.query,
                     contentPadding = bottomPadding,
                     onPostClick = onPostClick,
                     onDelete = { onAction(PostListAction.Delete(it)) },
@@ -149,17 +155,28 @@ fun PostListScreen(
 @Composable
 private fun PostList(
     posts: LazyPagingItems<PostListItemUiModel>,
+    query: String,
     contentPadding: PaddingValues,
     onPostClick: (Int) -> Unit,
     onDelete: (Int) -> Unit,
 ) {
+    val listState = rememberLazyListState()
+    var scrolledForQuery by rememberSaveable { mutableStateOf(query) }
+    LaunchedEffect(query) {
+        if (query != scrolledForQuery) {
+            scrolledForQuery = query
+            listState.scrollToItem(0)
+        }
+    }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        state = listState,
         contentPadding = contentPadding,
     ) {
         items(
             count = posts.itemCount,
-            key = posts.itemKey { it.id },
+            key = posts.itemKey { it.listKey },
             contentType = posts.itemContentType { "post" },
         ) { index ->
             val post = posts[index]
@@ -230,6 +247,7 @@ private fun PostListMessage(
 private val previewPosts = (1..6).map { id ->
     PostListItemUiModel(
         id = id,
+        listKey = "#$id",
         title = "sunt aut facere repellat provident occaecati excepturi optio $id",
         bodyPreview = "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae",
         imageUrl = "",
