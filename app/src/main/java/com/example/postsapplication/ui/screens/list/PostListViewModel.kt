@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.screens.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +9,9 @@ import com.example.postsapplication.R
 import com.example.postsapplication.domain.repository.PostRepository
 import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.ui.common.UiText
+import com.example.postsapplication.ui.common.prepareForSearch
+import com.example.postsapplication.ui.screens.list.model.PostListItemUiModel
+import com.example.postsapplication.ui.screens.list.model.toListItemUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job

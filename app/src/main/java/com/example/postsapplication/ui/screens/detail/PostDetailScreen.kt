@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.detail
+package com.example.postsapplication.ui.screens.detail
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement

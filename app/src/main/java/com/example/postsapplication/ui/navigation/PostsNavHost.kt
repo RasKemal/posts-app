@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.example.postsapplication.ui.detail.navigateToPostDetail
-import com.example.postsapplication.ui.detail.postDetailScreen
-import com.example.postsapplication.ui.list.postListScreen
+import com.example.postsapplication.ui.screens.detail.navigateToPostDetail
+import com.example.postsapplication.ui.screens.detail.postDetailScreen
+import com.example.postsapplication.ui.screens.list.postListScreen
 
 @Composable
 fun PostsNavHost(

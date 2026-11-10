@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.detail
+package com.example.postsapplication.ui.screens.detail
 
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshots.Snapshot

@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.screens.list
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

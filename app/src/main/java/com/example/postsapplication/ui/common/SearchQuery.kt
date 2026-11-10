@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.common
 
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,6 @@ private val WHITESPACE = Regex("\\s+")
 fun String.normalizeQuery(): String =
     replace(NON_SEARCHABLE_CHARS, " ").replace(WHITESPACE, " ").trim()
 
-/** Normalizes and debounces search input; a blank query becomes `null`. */
 @OptIn(FlowPreview::class)
 fun Flow<String>.prepareForSearch(debounceMillis: Long = 300L): Flow<String?> =
     map { it.normalizeQuery() }

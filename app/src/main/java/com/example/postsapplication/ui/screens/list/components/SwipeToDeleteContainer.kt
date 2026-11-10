@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list.components
+package com.example.postsapplication.ui.screens.list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

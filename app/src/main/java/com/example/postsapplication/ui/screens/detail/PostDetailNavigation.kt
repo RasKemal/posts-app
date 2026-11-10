@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.detail
+package com.example.postsapplication.ui.screens.detail
 
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.core.tween

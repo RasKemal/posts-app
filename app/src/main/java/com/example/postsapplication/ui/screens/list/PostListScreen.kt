@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.screens.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -42,11 +42,14 @@ import com.example.postsapplication.ui.common.toErrorMessage
 import com.example.postsapplication.ui.components.DelayedLoadingIndicator
 import com.example.postsapplication.ui.components.EmptyState
 import com.example.postsapplication.ui.components.EmptyStateAction
-import com.example.postsapplication.ui.list.components.PostImageSize
-import com.example.postsapplication.ui.list.components.PostRow
-import com.example.postsapplication.ui.list.components.PostRowHorizontalPadding
-import com.example.postsapplication.ui.list.components.SearchField
-import com.example.postsapplication.ui.list.components.SwipeToDeleteContainer
+import com.example.postsapplication.ui.screens.list.components.PostImageSize
+import com.example.postsapplication.ui.screens.list.components.PostRow
+import com.example.postsapplication.ui.screens.list.components.PostRowHorizontalPadding
+import com.example.postsapplication.ui.screens.list.components.SearchField
+import com.example.postsapplication.ui.screens.list.components.SwipeToDeleteContainer
+import com.example.postsapplication.ui.screens.list.model.PostListContent
+import com.example.postsapplication.ui.screens.list.model.PostListItemUiModel
+import com.example.postsapplication.ui.screens.list.model.postListContent
 import com.example.postsapplication.ui.theme.PostsTheme
 import kotlinx.coroutines.flow.flowOf
 

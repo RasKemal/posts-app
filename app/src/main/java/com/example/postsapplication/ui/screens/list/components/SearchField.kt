@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list.components
+package com.example.postsapplication.ui.screens.list.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape

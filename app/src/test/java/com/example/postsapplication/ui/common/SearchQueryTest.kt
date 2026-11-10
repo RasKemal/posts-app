@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.common
 
 import app.cash.turbine.test
 import kotlinx.coroutines.flow.MutableStateFlow

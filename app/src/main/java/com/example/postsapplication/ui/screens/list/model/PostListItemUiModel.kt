@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.screens.list.model
 
 import androidx.compose.runtime.Immutable
 import com.example.postsapplication.domain.model.Post

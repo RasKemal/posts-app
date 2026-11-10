@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.detail
+package com.example.postsapplication.ui.screens.detail
 
 import androidx.compose.runtime.Immutable
 import com.example.postsapplication.ui.common.UiText

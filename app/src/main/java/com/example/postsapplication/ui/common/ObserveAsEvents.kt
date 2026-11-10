@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-/** Collects one-off events only while the UI is at least STARTED, so none are lost or shown twice. */
 @Composable
 fun <T> ObserveAsEvents(events: Flow<T>, onEvent: suspend (T) -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current

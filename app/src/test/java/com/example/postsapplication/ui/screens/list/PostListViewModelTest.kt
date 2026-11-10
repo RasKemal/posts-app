@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.screens.list
 
 import app.cash.turbine.test
 import com.example.postsapplication.R

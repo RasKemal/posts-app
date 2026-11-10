@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list
+package com.example.postsapplication.ui.screens.list.model
 
 import androidx.paging.LoadState
 import com.example.postsapplication.domain.error.DataError

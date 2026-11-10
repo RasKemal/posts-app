@@ -1,4 +1,4 @@
-package com.example.postsapplication.ui.list.components
+package com.example.postsapplication.ui.screens.list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.postsapplication.R
 import com.example.postsapplication.ui.components.PostImage
-import com.example.postsapplication.ui.list.PostListItemUiModel
+import com.example.postsapplication.ui.screens.list.model.PostListItemUiModel
 import com.example.postsapplication.ui.theme.PostsTheme
 
 val PostImageSize = 56.dp
