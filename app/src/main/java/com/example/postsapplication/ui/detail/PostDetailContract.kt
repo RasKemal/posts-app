@@ -1,19 +1,33 @@
 package com.example.postsapplication.ui.detail
 
 import androidx.compose.runtime.Immutable
-import com.example.postsapplication.core.ui.UiText
+import com.example.postsapplication.ui.common.UiText
 
+/**
+ * [title]/[body] mirror the text fields; [originalTitle]/[originalBody] are the saved post,
+ * used to detect unsaved changes.
+ */
 @Immutable
 data class PostDetailUiState(
     val isLoading: Boolean = true,
     val isNotFound: Boolean = false,
     val imageUrl: String? = null,
-    val titleError: UiText? = null,
-    val hasChanges: Boolean = false,
-    val canSave: Boolean = false,
+    val title: String = "",
+    val body: String = "",
+    val originalTitle: String = "",
+    val originalBody: String = "",
     val isSaving: Boolean = false,
     val showDiscardDialog: Boolean = false,
-)
+) {
+    val isEditable: Boolean get() = !isLoading && !isNotFound
+
+    val isTitleBlank: Boolean get() = isEditable && title.isBlank()
+
+    val hasChanges: Boolean
+        get() = isEditable && (title.trim() != originalTitle.trim() || body.trim() != originalBody.trim())
+
+    val canSave: Boolean get() = hasChanges && !isTitleBlank && !isSaving
+}
 
 sealed interface PostDetailAction {
     data object Save : PostDetailAction

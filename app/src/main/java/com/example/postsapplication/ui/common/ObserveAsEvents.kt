@@ -1,4 +1,4 @@
-package com.example.postsapplication.core.ui
+package com.example.postsapplication.ui.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

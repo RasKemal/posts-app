@@ -5,7 +5,7 @@ import com.example.postsapplication.domain.model.Post
 
 /** What a list row shows; the body is flattened to one line for the 2-line preview. */
 @Immutable
-data class PostListItem(
+data class PostListItemUiModel(
     val id: Int,
     val title: String,
     val bodyPreview: String,
@@ -15,7 +15,7 @@ data class PostListItem(
 
 private val LINE_BREAKS = Regex("\\s*\\R\\s*")
 
-fun Post.toListItem(): PostListItem = PostListItem(
+fun Post.toListItemUiModel(): PostListItemUiModel = PostListItemUiModel(
     id = id,
     title = title,
     bodyPreview = body.trim().replace(LINE_BREAKS, " "),

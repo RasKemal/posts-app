@@ -5,25 +5,23 @@ import androidx.compose.runtime.snapshots.Snapshot
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.example.postsapplication.R
-import com.example.postsapplication.domain.result.DataResult
-import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.model.Post
+import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.domain.usecase.UpdatePostUseCase
 import com.example.postsapplication.testing.FakePostRepository
 import com.example.postsapplication.testing.MainDispatcherRule
+import com.example.postsapplication.ui.common.UiText
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
@@ -100,7 +98,7 @@ class PostDetailViewModelTest {
 
         viewModel.type(title = "  ")
 
-        assertNotNull(viewModel.uiState.value.titleError)
+        assertTrue(viewModel.uiState.value.isTitleBlank)
         assertFalse(viewModel.uiState.value.canSave)
     }
 
@@ -175,6 +173,6 @@ class PostDetailViewModelTest {
             expectNoEvents()
         }
         assertFalse(viewModel.uiState.value.showDiscardDialog)
-        assertNull(viewModel.uiState.value.titleError)
+        assertFalse(viewModel.uiState.value.isTitleBlank)
     }
 }

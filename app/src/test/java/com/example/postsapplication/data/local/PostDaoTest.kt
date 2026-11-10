@@ -1,8 +1,8 @@
 package com.example.postsapplication.data.local
 
+import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.testing.TestPager
-import androidx.paging.PagingConfig
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.postsapplication.data.local.dao.PostDao

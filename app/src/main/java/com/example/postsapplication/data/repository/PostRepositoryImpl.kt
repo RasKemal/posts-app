@@ -4,12 +4,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.postsapplication.core.common.ApplicationScope
 import com.example.postsapplication.data.local.dao.PostDao
 import com.example.postsapplication.data.mapper.toDomain
 import com.example.postsapplication.data.mapper.toDto
 import com.example.postsapplication.data.mapper.toEntity
 import com.example.postsapplication.data.remote.PostApi
+import com.example.postsapplication.di.ApplicationScope
 import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.domain.repository.PostRepository

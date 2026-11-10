@@ -48,8 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.postsapplication.R
-import com.example.postsapplication.core.ui.ObserveAsEvents
-import com.example.postsapplication.core.ui.UiText
+import com.example.postsapplication.ui.common.ObserveAsEvents
 import com.example.postsapplication.ui.components.DelayedLoadingIndicator
 import com.example.postsapplication.ui.components.EmptyState
 import com.example.postsapplication.ui.components.EmptyStateAction
@@ -180,8 +179,12 @@ private fun PostEditForm(
             modifier = Modifier.fillMaxWidth(),
             enabled = !uiState.isSaving,
             label = { Text(stringResource(R.string.label_title)) },
-            isError = uiState.titleError != null,
-            supportingText = uiState.titleError?.let { error -> { Text(error.asString()) } },
+            isError = uiState.isTitleBlank,
+            supportingText = if (uiState.isTitleBlank) {
+                { Text(stringResource(R.string.error_title_blank)) }
+            } else {
+                null
+            },
             lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 3),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
@@ -226,35 +229,34 @@ private fun DiscardChangesDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
 }
 
 @Composable
-private fun PostDetailPreview(uiState: PostDetailUiState, title: String = "qui est esse") {
+private fun PostDetailPreview(uiState: PostDetailUiState) {
     PostsTheme {
         PostDetailScreen(
             uiState = uiState,
-            titleState = remember { TextFieldState(title) },
-            bodyState = remember { TextFieldState("est rerum tempore vitae\nsequi sint nihil reprehenderit") },
+            titleState = remember { TextFieldState(uiState.title) },
+            bodyState = remember { TextFieldState(uiState.body) },
             snackbarHostState = remember { SnackbarHostState() },
             onAction = {},
         )
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-private fun PostDetailEditingPreview() = PostDetailPreview(
-    PostDetailUiState(isLoading = false, imageUrl = "", hasChanges = true, canSave = true),
+private val previewState = PostDetailUiState(
+    isLoading = false,
+    imageUrl = "",
+    title = "qui est esse edited",
+    body = "est rerum tempore vitae\nsequi sint nihil reprehenderit",
+    originalTitle = "qui est esse",
+    originalBody = "est rerum tempore vitae\nsequi sint nihil reprehenderit",
 )
 
 @Preview(showSystemUi = true)
 @Composable
-private fun PostDetailBlankTitlePreview() = PostDetailPreview(
-    uiState = PostDetailUiState(
-        isLoading = false,
-        imageUrl = "",
-        hasChanges = true,
-        titleError = UiText.StringResource(R.string.error_title_blank),
-    ),
-    title = "",
-)
+private fun PostDetailEditingPreview() = PostDetailPreview(previewState)
+
+@Preview(showSystemUi = true)
+@Composable
+private fun PostDetailBlankTitlePreview() = PostDetailPreview(previewState.copy(title = ""))
 
 @Preview(showSystemUi = true)
 @Composable

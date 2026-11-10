@@ -1,9 +1,9 @@
 package com.example.postsapplication.testing
 
 import androidx.paging.PagingData
-import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.domain.repository.PostRepository
+import com.example.postsapplication.domain.result.DataResult
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

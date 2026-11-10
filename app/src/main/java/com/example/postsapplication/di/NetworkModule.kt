@@ -27,7 +27,7 @@ annotation class ApiClient
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val HTTP_CACHE_SIZE = 10L * 1024 * 1024
+    private const val HTTP_CACHE_SIZE = 10L * 1024 * 1024 // 10 mb
     private const val TIMEOUT_SECONDS = 15L
 
     @Provides

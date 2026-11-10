@@ -1,4 +1,4 @@
-package com.example.postsapplication.core.ui
+package com.example.postsapplication.ui.common
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing

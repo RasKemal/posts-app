@@ -1,4 +1,4 @@
-package com.example.postsapplication.core.ui
+package com.example.postsapplication.ui.common
 
 import android.content.res.Resources
 import androidx.annotation.StringRes

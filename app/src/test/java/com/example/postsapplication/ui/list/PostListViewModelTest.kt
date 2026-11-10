@@ -2,11 +2,11 @@ package com.example.postsapplication.ui.list
 
 import app.cash.turbine.test
 import com.example.postsapplication.R
-import com.example.postsapplication.domain.result.DataResult
-import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.domain.error.DataError
+import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.testing.FakePostRepository
 import com.example.postsapplication.testing.MainDispatcherRule
+import com.example.postsapplication.ui.common.UiText
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch

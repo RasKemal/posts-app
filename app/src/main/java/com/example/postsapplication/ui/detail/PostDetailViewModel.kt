@@ -11,11 +11,11 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import androidx.navigation.toRoute
 import com.example.postsapplication.R
-import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.repository.PostRepository
 import com.example.postsapplication.domain.result.UpdatePostResult
 import com.example.postsapplication.domain.usecase.UpdatePostUseCase
+import com.example.postsapplication.ui.common.UiText
 import com.example.postsapplication.ui.navigation.PostDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -48,13 +48,13 @@ class PostDetailViewModel @Inject constructor(
     val bodyState: TextFieldState =
         savedStateHandle.saveable(key = KEY_BODY, saver = TextFieldState.Saver, init = { TextFieldState() })
 
-    private val state = MutableStateFlow(DetailState())
+    private val state = MutableStateFlow(PostDetailUiState())
 
     val uiState: StateFlow<PostDetailUiState> = combine(
         state,
         snapshotFlow { titleState.text.toString() },
         snapshotFlow { bodyState.text.toString() },
-    ) { state, title, body -> state.toUiState(title, body) }
+    ) { state, title, body -> state.copy(title = title, body = body) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PostDetailUiState())
 
     private val _events = Channel<PostDetailEvent>(Channel.BUFFERED)
@@ -109,9 +109,8 @@ class PostDetailViewModel @Inject constructor(
     }
 
     private fun onBack() {
-        val current = state.value
-        val hasChanges = current.hasChanges(titleState.text.toString(), bodyState.text.toString())
-        if (hasChanges && !current.isSaving) {
+        val current = state.value.copy(title = titleState.text.toString(), body = bodyState.text.toString())
+        if (current.hasChanges && !current.isSaving) {
             state.update { it.copy(showDiscardDialog = true) }
         } else {
             _events.trySend(PostDetailEvent.NavigateBack)
@@ -121,36 +120,6 @@ class PostDetailViewModel @Inject constructor(
     private suspend fun onSaveFailed(@StringRes message: Int) {
         state.update { it.copy(isSaving = false) }
         _events.send(PostDetailEvent.ShowMessage(UiText.StringResource(message)))
-    }
-
-    private data class DetailState(
-        val isLoading: Boolean = true,
-        val isNotFound: Boolean = false,
-        val imageUrl: String? = null,
-        val originalTitle: String = "",
-        val originalBody: String = "",
-        val isSaving: Boolean = false,
-        val showDiscardDialog: Boolean = false,
-    ) {
-        val isEditable: Boolean get() = !isLoading && !isNotFound
-
-        fun hasChanges(title: String, body: String): Boolean =
-            isEditable && (title.trim() != originalTitle.trim() || body.trim() != originalBody.trim())
-
-        fun toUiState(title: String, body: String): PostDetailUiState {
-            val hasChanges = hasChanges(title, body)
-            val isTitleBlank = isEditable && title.isBlank()
-            return PostDetailUiState(
-                isLoading = isLoading,
-                isNotFound = isNotFound,
-                imageUrl = imageUrl,
-                titleError = if (isTitleBlank) UiText.StringResource(R.string.error_title_blank) else null,
-                hasChanges = hasChanges,
-                canSave = hasChanges && !isTitleBlank && !isSaving,
-                isSaving = isSaving,
-                showDiscardDialog = showDiscardDialog,
-            )
-        }
     }
 
     private companion object {

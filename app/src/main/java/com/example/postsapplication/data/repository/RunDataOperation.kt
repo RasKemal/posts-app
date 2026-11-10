@@ -10,7 +10,7 @@ import java.io.IOException
  * Runs [block] and turns its outcome into a [DataResult]: its return value on success,
  * or the matching [DataError] if it throws.
  */
-suspend fun <T> runDataOperation(block: suspend () -> T): DataResult<T> =
+internal suspend fun <T> runDataOperation(block: suspend () -> T): DataResult<T> =
     try {
         DataResult.Success(block())
     } catch (e: CancellationException) {
@@ -19,7 +19,7 @@ suspend fun <T> runDataOperation(block: suspend () -> T): DataResult<T> =
         DataResult.Failure(e.toDataError())
     }
 
-fun Throwable.toDataError(): DataError = when (this) {
+internal fun Throwable.toDataError(): DataError = when (this) {
     is IOException -> DataError.NO_INTERNET // includes timeouts
     is HttpException -> when (code()) {
         404 -> DataError.NOT_FOUND

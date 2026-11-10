@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 /** Shows the spinner only after [delayMillis] to avoid a flash on fast loads. */
 @Composable
@@ -28,7 +29,7 @@ fun DelayedLoadingIndicator(
     var visible by remember { mutableStateOf(isPreview) }
 
     LaunchedEffect(Unit) {
-        delay(delayMillis)
+        delay(delayMillis.milliseconds)
         visible = true
     }
 

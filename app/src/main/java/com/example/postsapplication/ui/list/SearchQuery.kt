@@ -1,4 +1,4 @@
-package com.example.postsapplication.core.util
+package com.example.postsapplication.ui.list
 
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

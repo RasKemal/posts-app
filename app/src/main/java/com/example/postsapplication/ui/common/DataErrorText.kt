@@ -1,7 +1,6 @@
 package com.example.postsapplication.ui.common
 
 import com.example.postsapplication.R
-import com.example.postsapplication.core.ui.UiText
 import com.example.postsapplication.domain.error.DataError
 
 /** Title + description for full-screen error states. */

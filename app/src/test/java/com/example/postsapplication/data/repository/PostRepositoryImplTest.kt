@@ -2,11 +2,11 @@ package com.example.postsapplication.data.repository
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.example.postsapplication.domain.result.DataResult
 import com.example.postsapplication.data.local.PostsDatabase
 import com.example.postsapplication.data.local.dao.PostDao
 import com.example.postsapplication.data.remote.PostApi
 import com.example.postsapplication.domain.error.DataError
+import com.example.postsapplication.domain.result.DataResult
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
