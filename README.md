@@ -6,7 +6,7 @@ NGAMING Case Study: offline-first stratejisi, Room tabanlı paging ve Jetpack Co
 Clean Architecture ile üç katman; bağımlılıklar içe doğru: `ui → domain ← data`.
 
 * **Data:** Retrofit API ve Room arasındaki veri akışını yönetir. Read'ler offline-first, write'lar local-only (sadece Room).
-* **Domain:** Android'den bağımsız saf Kotlin: modeller, Repository interface'i, `DataResult` / `DataError` ve iş kuralı içeren `UpdatePostUseCase`.
+* **Domain:** Android'den bağımsız saf Kotlin: modeller, Repository interface'i, `DataResult` / `DataError`.
 * **UI:** MVVM + UDF. Her ekranın bir Contract'ı var: bir `UiState`, tek bir `onAction` entry point'i ve one-off `Event`'ler. Liste ekranında post'lar ayrıca `Flow<PagingData>` olarak sunulur.
 
 ## Teknik Detaylar
