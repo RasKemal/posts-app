@@ -94,7 +94,6 @@ class PostDetailViewModel @Inject constructor(
         state.update { it.copy(isSaving = true) }
         viewModelScope.launch {
             when (updatePostUseCase(postId, titleState.text.toString(), bodyState.text.toString())) {
-                // isSaving stays true: it blocks a second tap from navigating back twice.
                 UpdatePostResult.Success -> _events.send(PostDetailEvent.NavigateBack)
                 UpdatePostResult.BlankTitle -> {
                     state.update { it.copy(isSaving = false) }

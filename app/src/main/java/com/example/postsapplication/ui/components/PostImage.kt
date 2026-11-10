@@ -13,7 +13,6 @@ import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import com.example.postsapplication.ui.common.shimmer
 
-/** Post image with a shimmer while loading; on error the placeholder color stays. */
 @Composable
 fun PostImage(
     url: String,

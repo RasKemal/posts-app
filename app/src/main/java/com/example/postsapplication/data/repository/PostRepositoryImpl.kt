@@ -24,7 +24,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override fun pagedPosts(query: String?): Flow<PagingData<Post>> =
         Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
+            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true),
             pagingSourceFactory = { postDao.pagingSource(query) },
         ).flow.map { pagingData -> pagingData.map { it.toDomain() } }
 
@@ -43,7 +43,6 @@ class PostRepositoryImpl @Inject constructor(
         }
     }
 
-    // Writes are local: JSONPlaceholder doesn't persist them, so the flags keep them safe from refresh.
     override suspend fun updatePost(id: Int, title: String, body: String) =
         postDao.updateContent(id, title, body)
 

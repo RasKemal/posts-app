@@ -42,7 +42,6 @@ object NetworkModule {
             .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .apply {
                 if (BuildConfig.DEBUG) {
-                    // Network interceptor: logs what really goes over the wire (If-None-Match, 304).
                     addNetworkInterceptor(
                         HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.HEADERS },
                     )

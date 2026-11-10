@@ -45,6 +45,7 @@ import com.example.postsapplication.ui.components.EmptyStateAction
 import com.example.postsapplication.ui.screens.list.components.PostImageSize
 import com.example.postsapplication.ui.screens.list.components.PostRow
 import com.example.postsapplication.ui.screens.list.components.PostRowHorizontalPadding
+import com.example.postsapplication.ui.screens.list.components.PostRowPlaceholder
 import com.example.postsapplication.ui.screens.list.components.SearchField
 import com.example.postsapplication.ui.screens.list.components.SwipeToDeleteContainer
 import com.example.postsapplication.ui.screens.list.model.PostListContent
@@ -161,7 +162,11 @@ private fun PostList(
             key = posts.itemKey { it.id },
             contentType = posts.itemContentType { "post" },
         ) { index ->
-            val post = posts[index] ?: return@items
+            val post = posts[index]
+            if (post == null) {
+                PostRowPlaceholder()
+                return@items
+            }
             Column(Modifier.animateItem()) {
                 SwipeToDeleteContainer(
                     onDelete = { onDelete(post.id) },
