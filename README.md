@@ -1,6 +1,6 @@
 # Posts App
 
-NGAMING Case Study: offline-first stratejisi, Room tabanlı paging ve Jetpack Compose ile MVVM/UDF mimarisine sahip bir uygulama.
+Offline-first stratejisi, Room tabanlı paging ve Jetpack Compose ile MVVM/UDF mimarisine sahip bir uygulama.
 
 ## Mimari
 Clean Architecture ile üç katman; bağımlılıklar içe doğru: `ui → domain ← data`.
