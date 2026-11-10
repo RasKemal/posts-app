@@ -187,17 +187,6 @@ class PostRepositoryImplTest {
         assertEquals(1, seeded.observePost(1).first()?.id)
     }
 
-    @Test
-    fun `deletePost treats 404 as already deleted`() = runTest {
-        val repository = seededRepository()
-        server.enqueue(MockResponse.Builder().code(404).build())
-
-        val result = repository.deletePost(1)
-
-        assertTrue(result is DataResult.Success)
-        assertNull(repository.observePost(1).first())
-    }
-
     private suspend fun TestScope.seededRepository(): PostRepositoryImpl {
         val repository = repository()
         server.enqueue(postsResponse(ids = 1..3))

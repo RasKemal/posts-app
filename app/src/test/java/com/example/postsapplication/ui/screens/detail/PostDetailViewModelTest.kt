@@ -40,7 +40,7 @@ class PostDetailViewModelTest {
         val viewModel = PostDetailViewModel(
             savedStateHandle = SavedStateHandle(mapOf("id" to id)),
             repository = repository,
-            updatePost = UpdatePostUseCase(repository),
+            updatePostUseCase = UpdatePostUseCase(repository),
         )
         backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.uiState.collect {} }
         return viewModel
