@@ -29,7 +29,6 @@ private val DarkColorScheme = darkColorScheme(
     errorContainer = DarkErrorContainer,
 )
 
-/** The app is dark-only, regardless of the system setting. */
 @Composable
 fun PostsTheme(content: @Composable () -> Unit) {
     MaterialTheme(

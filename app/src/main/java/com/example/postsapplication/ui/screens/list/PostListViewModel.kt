@@ -76,7 +76,6 @@ class PostListViewModel @Inject constructor(
         }
     }
 
-    // Room change → PagingSource invalidated → the row leaves the list.
     private fun delete(id: Int) {
         viewModelScope.launch { repository.deletePost(id) }
     }
