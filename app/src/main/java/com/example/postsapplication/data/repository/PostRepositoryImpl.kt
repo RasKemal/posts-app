@@ -28,8 +28,8 @@ class PostRepositoryImpl @Inject constructor(
             pagingSourceFactory = { postDao.pagingSource(query) },
         ).flow.map { pagingData -> pagingData.map { it.toDomain() } }
 
-    override fun observePost(id: Int): Flow<Post?> =
-        postDao.observePost(id).map { it?.toDomain() }
+    override suspend fun getPost(id: Int): Post? =
+        postDao.getVisiblePost(id)?.toDomain()
 
     override suspend fun refresh(): DataResult<Unit> = runDataOperation {
         val response = api.getPosts()

@@ -73,7 +73,7 @@ class PostDetailViewModel @Inject constructor(
     }
 
     private suspend fun load() {
-        val post = repository.observePost(postId).first()
+        val post = repository.getPost(postId)
         if (post == null) {
             state.update { it.copy(isLoading = false, isNotFound = true) }
             return

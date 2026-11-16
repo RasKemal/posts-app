@@ -1,6 +1,7 @@
 package com.example.postsapplication.testing
 
 import androidx.paging.PagingData
+import com.example.postsapplication.domain.model.Comment
 import com.example.postsapplication.domain.model.Post
 import com.example.postsapplication.domain.repository.PostRepository
 import com.example.postsapplication.domain.result.DataResult
@@ -28,7 +29,7 @@ class FakePostRepository : PostRepository {
 
     val posts = mutableMapOf<Int, Post>()
 
-    override fun observePost(id: Int): Flow<Post?> = flowOf(posts[id])
+    override suspend fun getPost(id: Int): Post? = posts[id]
 
     override suspend fun refresh(): DataResult<Unit> {
         refreshCalls++

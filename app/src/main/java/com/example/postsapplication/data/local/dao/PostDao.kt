@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.postsapplication.data.local.entity.PostEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PostDao {
@@ -23,7 +22,7 @@ interface PostDao {
     fun pagingSource(query: String?): PagingSource<Int, PostEntity>
 
     @Query("SELECT * FROM posts WHERE id = :id AND isDeleted = 0")
-    fun observePost(id: Int): Flow<PostEntity?>
+    suspend fun getVisiblePost(id: Int): PostEntity?
 
     @Query("SELECT * FROM posts WHERE id = :id")
     suspend fun getPost(id: Int): PostEntity?

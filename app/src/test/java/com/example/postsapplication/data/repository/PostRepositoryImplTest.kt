@@ -7,7 +7,6 @@ import com.example.postsapplication.data.local.dao.PostDao
 import com.example.postsapplication.data.remote.PostApi
 import com.example.postsapplication.domain.error.DataError
 import com.example.postsapplication.domain.result.DataResult
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import mockwebserver3.MockResponse
@@ -94,7 +93,7 @@ class PostRepositoryImplTest {
         repository.refresh()
 
         assertEquals("my edit", postDao.getPost(1)?.title)
-        assertNull(repository.observePost(2).first())
+        assertNull(repository.getPost(2))
     }
 
     @Test
@@ -122,7 +121,7 @@ class PostRepositoryImplTest {
         repository.updatePost(1, title = "new title", body = "new body")
 
         assertEquals(1, server.requestCount) // only the seeding refresh
-        val post = repository.observePost(1).first()!!
+        val post = repository.getPost(1)!!
         assertEquals("new title", post.title)
         assertEquals("new body", post.body)
         assertTrue(postDao.getPost(1)!!.isLocallyModified)
@@ -135,7 +134,7 @@ class PostRepositoryImplTest {
         repository.deletePost(1)
 
         assertEquals(1, server.requestCount) // only the seeding refresh
-        assertNull(repository.observePost(1).first())
+        assertNull(repository.getPost(1))
         assertTrue(postDao.getPost(1)!!.isDeleted)
     }
 
