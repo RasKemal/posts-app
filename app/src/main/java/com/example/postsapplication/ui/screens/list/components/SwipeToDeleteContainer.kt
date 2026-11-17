@@ -9,13 +9,13 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxDefaults
+import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,21 +28,26 @@ fun SwipeToDeleteContainer(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
+    val positionalThreshold = SwipeToDismissBoxDefaults.positionalThreshold
+    // Not saveable: a row that comes back to the list must start Settled, not restored as dismissed.
+    val dismissState = remember {
+        SwipeToDismissBoxState(SwipeToDismissBoxValue.Settled, positionalThreshold)
+    }
     // SwipeToDismissBox calls onDismiss again whenever the lambda changes while it is dismissed.
     // A removed row stays composed during animateItem's fade-out and can be rebound to the next
-    // post, so without this guard one swipe would delete several posts.
-    var isDeleted by remember { mutableStateOf(false) }
+    // post, so a stable lambda that reads the latest onDelete keeps it to one call per swipe.
+    val currentOnDelete by rememberUpdatedState(onDelete)
+    val onDismiss = remember {
+        { value: SwipeToDismissBoxValue ->
+            if (value == SwipeToDismissBoxValue.EndToStart) currentOnDelete()
+        }
+    }
 
     SwipeToDismissBox(
-        state = rememberSwipeToDismissBoxState(),
+        state = dismissState,
         modifier = modifier,
         enableDismissFromStartToEnd = false,
-        onDismiss = { value ->
-            if (value == SwipeToDismissBoxValue.EndToStart && !isDeleted) {
-                isDeleted = true
-                onDelete()
-            }
-        },
+        onDismiss = onDismiss,
         backgroundContent = { DeleteBackground() },
     ) {
         content()
